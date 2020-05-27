@@ -6,13 +6,14 @@ import {
     Form,
     Button,
     Accordion,
-} from "react-bootstrap";
+    Image,
+} from "react-bootstrap"
 
 function AddProduct(props) {
     return (
         <Accordion>
             <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                Add Product
+            {props.product.ID === null ? "Add" : "Edit"} Product
             </Accordion.Toggle>
             <Accordion.Collapse eventKey="0">
                 <Form>
@@ -50,6 +51,18 @@ function AddProduct(props) {
                                         </Form.Group>
                                     </Col>
                                 </Row> */}
+                        <Row>
+                            <Col>
+                                {props.product.images.map((img) => {
+                                    return (
+                                        <Image
+                                            key={img.name}
+                                            src={"images/" + img.name}
+                                        />
+                                    )
+                                })}
+                            </Col>{" "}
+                        </Row>
                         <Row>
                             <Col>
                                 <input type="file" onChange={props.onAddFile} />
@@ -117,11 +130,7 @@ function AddProduct(props) {
                     <Button
                         variant="primary"
                         type="submit"
-                        onClick={
-                            props.product.ID
-                                ? props.editProduct
-                                : props.newProduct
-                        }
+                        onClick={props.newProduct}
                     >
                         {props.product.ID === null ? "Add" : "Save"}
                     </Button>
@@ -131,4 +140,4 @@ function AddProduct(props) {
     )
 }
 
-export default AddProduct;
+export default AddProduct

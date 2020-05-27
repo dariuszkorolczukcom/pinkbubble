@@ -1,31 +1,39 @@
 import React from "react"
-import { Jumbotron } from "react-bootstrap"
+import { Container, Row, Col, Jumbotron } from "react-bootstrap"
 
 const Header = () => {
     return (
-        <div>
-            <Jumbotron id="jumbotronUnit" bg="light" style={style.main}>
-                <h1 className="display-3" style={style.rest}>Natural products</h1>
-                <p style={style.rest} className="lead">
-                    We offer a range of hand made beauty products
-                </p>
-                <hr style={style.rest} className="my-2" />
-                <p style={style.rest}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Nullam volutpat, turpis quis sodales imperdiet, nunc nisi
-                    efficitur turpis, at efficitur mi orci id mauris. Duis a
-                    mauris quis elit sodales pharetra id eget enim.
-                </p>
+            <Jumbotron id="jumbotronUnit" bg="light" style={style.main} fluid>
+                <Container fluid>
+                    <Row>
+                        <Col>
+                            <p style={style.rest} className="lead">
+                                We offer a range of hand made beauty products
+                            </p>
+                        </Col>
+                    </Row>
+                    <hr style={style.rest} className="my-2" />
+                    <Row>
+                        <Col>
+                            <p style={style.rest}>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit.
+                            </p>
+                        </Col>
+                    </Row>
+                </Container>
             </Jumbotron>
-        </div>
     )
 }
 
-const style={
-  main:{
-},
-rest:{
-  opacity:1,
-}}
+const style = {
+    main: {
+        width: "100%",
+        padding:"1rem"
+    },
+    rest: {
+        opacity: 1,
+    },
+}
 
 export default Header
