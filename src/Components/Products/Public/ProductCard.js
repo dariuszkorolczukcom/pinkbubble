@@ -8,45 +8,45 @@ const style = {
     maxWidth: "445px",
 }
 const ProductCard = (props) => {
+    const { product } = props
+
     let addProductToCart = props.addProductToCart
-    let ID = props.product.ID
-    let name = props.product.name
-    let price = props.product.price
-    let img = props.product.img
-    let images = props.product.images
-    let description = props.product.description
+
     return (
         <Card style={style}>
-            {img !== null && img ? (
+            {product.img !== null && product.img ? (
                 <Card.Img
                     variant="top"
                     width="100%"
-                    src={process.env.REACT_APP_S3_BUCKET+img}
+                    src={process.env.REACT_APP_S3_BUCKET + product.img}
                     alt="Card image cap"
                 />
             ) : (
-                images !== null &&
-                images.length > 0 && (
+                product.images !== null &&
+                product.images.length > 0 && (
                     <Card.Img
                         variant="top"
                         width="100%"
-                        key={images[0].name}
-                        src={process.env.REACT_APP_S3_BUCKET + images[0].name}
+                        key={product.images[0].name}
+                        src={
+                            process.env.REACT_APP_S3_BUCKET +
+                            product.images[0].name
+                        }
                     />
                 )
             )}
             <Card.Body>
-                <Link to={"/products/" + ID}>
-                    <Card.Title>{name}</Card.Title>
+                <Link to={"/products/" + product.ID}>
+                    <Card.Title>{product.name}</Card.Title>
                     <Card.Subtitle>
                         {/* <del>£{props.product.price + 1}</del>{" "} */}
-                        <span style={{ color: "red" }}>£{price}</span>
+                        <span style={{ color: "red" }}>£{product.price}</span>
                     </Card.Subtitle>
-                    <Card.Text>{description}</Card.Text>
+                    <Card.Text>{product.description}</Card.Text>
                 </Link>
                 <Button
                     variant="secondary"
-                    onClick={() => addProductToCart(ID)}
+                    onClick={() => addProductToCart(product.ID)}
                     block
                 >
                     Add to Order

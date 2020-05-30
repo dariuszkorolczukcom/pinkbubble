@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Navbar, Nav, NavDropdown, Button } from "react-bootstrap"
+import { Navbar, Nav } from "react-bootstrap"
 import "./Navbar.css"
 import Login from "./Login/Login"
 
@@ -7,7 +7,7 @@ class NavbarComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            watchJumbo: false,
+            fixed: false,
         }
     }
     componentDidMount() {
@@ -19,21 +19,13 @@ class NavbarComponent extends Component {
     }
 
     listenToScroll = () => {
-        const winScroll =
-            document.body.scrollTop || document.documentElement.scrollTop
-        const height =
-            document.documentElement.scrollHeight -
-            document.documentElement.clientHeight
-        const scrolled = winScroll / height
         this.setState({
-            scrollPosition: scrolled,
             NavbarPosition: document
                 .querySelector("#navbarUnit")
                 .getBoundingClientRect()["top"],
             JumbotronPosition: document
                 .querySelector("#jumbotronUnit")
                 .getBoundingClientRect()["bottom"],
-            watchJumbo: true,
         })
         this.shouldBeFixed()
     }
@@ -51,7 +43,6 @@ class NavbarComponent extends Component {
     }
 
     render() {
-        let stopBubbles = this.props.stopBubbles
         return (
             <Navbar
                 key="navbarUnit"
@@ -67,22 +58,9 @@ class NavbarComponent extends Component {
                     <Nav justify>
                         <Nav.Link href="/checkout">checkout</Nav.Link>
                         <Nav.Link href="/products">products</Nav.Link>
-                        {/* <Nav.Link href="/categories">categories</Nav.Link> */}
                         <Nav.Link href="/users">users</Nav.Link>
-                        {/* <NavDropdown title="Categories" id="basic-nav-dropdown"> */}
-                        {/* {this.props.categories && this.props.categories.length ? this.props.categories.map((category) => {
-                                return (
-                                    <NavDropdown.Item
-                                        key={category.name}
-                                        href={"#" + category.name}
-                                    >
-                                        {category.name.charAt(0).toUpperCase() +
-                                            category.name.slice(1)}
-                                    </NavDropdown.Item>
-                                )
-                            }) : ""} */}
-                        {/* </NavDropdown> */}
                         <Login />
+                        {this.props.cartSize}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
