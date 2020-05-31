@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## ENVIRONMENT VARIABLES:
+export REACT_APP_S3_BUCKET=<S3_BUCKET> <br />
+
 ## Available Scripts
 
 In the project directory, you can run:
