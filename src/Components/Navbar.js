@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Fragment, Component } from "react"
 import { Navbar, Nav } from "react-bootstrap"
 import "./Navbar.css"
 import Login from "./Login/Login"
@@ -57,8 +57,15 @@ class NavbarComponent extends Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav justify>
                         <Nav.Link href="/checkout">checkout</Nav.Link>
-                        <Nav.Link href="/products">products</Nav.Link>
-                        <Nav.Link href="/users">users</Nav.Link>
+                        {this.props.user !== null &&
+                            this.props.user.role === 1 && (
+                                <Fragment>
+                                    <Nav.Link href="/products">
+                                        products
+                                    </Nav.Link>
+                                    <Nav.Link href="/users">users</Nav.Link>
+                                </Fragment>
+                            )}
                         <Login />
                         {this.props.cartSize}
                     </Nav>

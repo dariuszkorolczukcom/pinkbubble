@@ -12,48 +12,55 @@ import Checkout from "../Components/Checkout/Checkout"
 import { Switch, Route, withRouter } from "react-router-dom"
 import Cookie from "js-cookie"
 import { TransitionGroup, CSSTransition } from "react-transition-group"
+import axios from "axios"
 
 const token = Cookie.get("token") ? Cookie.get("token") : null
 
 const App = (props) => {
-    // loadUser() {
-    //     const config = {
-    //         headers: {
-    //             "Access-Control-Allow-Origin": "*",
-    //             Authorization: "Bearer " + token,
-    //         },
-    //     }
-    //     let status = 0
-    //     axios
-    //         .get("http://localhost:8080/hello", config)
-    //         .then((res) => {
-    //             console.log(res)
-    //             status = res.status
-    //         })
-    //         .catch(function (error) {
-    //             console.log(error)
-    //             status = error.response ? error.response.status : 0
-    //         })
-    //         .finally(() => {
-    //             console.log(status)
-    //             switch (status) {
-    //                 case 200:
-    //                     this.setState({ admin: true })
-    //                     console.log("success!")
-    //                     break
-    //                 case 401:
-    //                     console.log("not logged in!")
-    //                     break
-    //                 default:
-    //                     console.log("server error")
-    //             }
-    //         })
-    // }
+    const [user, setUser] = useState(null)
+
+    const loadUser = () => {
+        const config = {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                Authorization: "Bearer " + token,
+            },
+        }
+        let status = 0
+        let user = null
+        axios
+            .get("http://localhost:8080/info/", config)
+            .then((res) => {
+                user = res.data
+                status = res.status
+            })
+            .catch(function (error) {
+                console.log(error)
+                status = error.response ? error.response.status : 0
+            })
+            .finally(() => {
+                console.log(status)
+                switch (status) {
+                    case 200:
+                        setUser(user)
+                        console.log("success!")
+                        break
+                    case 401:
+                        console.log("not logged in!")
+                        break
+                    default:
+                        console.log("server error")
+                }
+            })
+    }
+    useEffect(() => {
+        token != null && loadUser()
+    }, [])
+
     const cartSize = 2
 
     const [cart, setCart] = useState(
-            JSON.parse(localStorage.getItem("shopCart"))
-            || {}
+        JSON.parse(localStorage.getItem("shopCart")) || {}
     )
 
     useEffect(() => {
@@ -67,8 +74,6 @@ const App = (props) => {
         setCart(tempCart)
     }
 
-    // console.log(JSON.parse(localStorage.getItem('shopCart')))
-
     return (
         <Fragment>
             <Container>
@@ -76,7 +81,7 @@ const App = (props) => {
                     <Header />
                 </Row>
                 <Row>
-                    <NavbarComponent cartSize={cartSize} />
+                    <NavbarComponent user={user} cartSize={cartSize} />
                 </Row>
                 <Row>
                     <TransitionGroup>
@@ -88,7 +93,7 @@ const App = (props) => {
                                     />
                                 </Route>
                                 <Route exact path="/products">
-                                    <AddEditProduct />
+                                    <AddEditProduct user={user} />
                                 </Route>
                                 <Route path="/products/:id">
                                     <ProductDetails
@@ -99,10 +104,10 @@ const App = (props) => {
                                     <AddEditCategory />
                                 </Route> */}
                                 <Route path="/users">
-                                    <Users />
+                                    <Users user={user} />
                                 </Route>
                                 <Route path="/checkout">
-                                    <Checkout />
+                                    <Checkout user={user} cart={cart} />
                                 </Route>
                             </Switch>
                         </CSSTransition>

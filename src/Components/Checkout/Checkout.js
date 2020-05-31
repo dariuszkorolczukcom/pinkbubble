@@ -35,7 +35,7 @@ class Checkout extends Component {
     constructor(props) {
         super(props)
         this.state = {
-          activeStep: 0,
+            activeStep: 0,
             products: products,
             payment: payment,
             address: address,
@@ -46,93 +46,120 @@ class Checkout extends Component {
     }
 
     onAddressChange(e) {
-      let address = this.state.address;
-      address[e.target.name] = e.target.value;
-      this.setState({
-        addres:address
-      })
+        let address = this.state.address
+        address[e.target.name] = e.target.value
+        this.setState({
+            addres: address,
+        })
     }
 
     onPaymentChange(e) {
-      let payment = this.state.payment;
-      payment[e.target.name] = e.target.value;
-      this.setState({
-        payment:payment
-      })
+        let payment = this.state.payment
+        payment[e.target.name] = e.target.value
+        this.setState({
+            payment: payment,
+        })
     }
 
     handleSubmit(e) {
-      e.preventDefault()
-      alert("Form submitted!")
-  }
+        e.preventDefault()
+        alert("Form submitted!")
+    }
 
     getStepContent(step) {
         switch (step) {
             case 0:
-                return <AddressForm onChnge={this.onAddressChange} address={this.state.address}/>
+                return (
+                    <AddressForm
+                        onChnge={this.onAddressChange}
+                        address={this.state.address}
+                    />
+                )
             case 1:
-                return <PaymentForm onChange={this.onPaymentChange} payment={this.state.payment}/>
+                return (
+                    <PaymentForm
+                        onChange={this.onPaymentChange}
+                        payment={this.state.payment}
+                    />
+                )
             case 2:
-                return <Review payment={this.state.payment} address={this.state.address} products={this.state.products} onSubmit={this.handleSubmit}/>
+                return (
+                    <Review
+                        payment={this.state.payment}
+                        address={this.state.address}
+                        products={this.state.products}
+                        onSubmit={this.handleSubmit}
+                    />
+                )
             default:
                 throw new Error("Unknown step")
         }
     }
 
     setActiveStep = (step) => {
-      if (step >= 0) {
-        this.setState({
-          activeStep:step
-        })
-      }
+        if (step >= 0) {
+            this.setState({
+                activeStep: step,
+            })
+        }
     }
 
     handleNext = () => {
-      this.setActiveStep(this.state.activeStep + 1);
-    };
+        this.setActiveStep(this.state.activeStep + 1)
+    }
 
     handleBack = () => {
-      this.setActiveStep(this.state.activeStep - 1);
-    };
+        this.setActiveStep(this.state.activeStep - 1)
+    }
 
     render() {
-      let activeStep = this.state.activeStep;
+        let activeStep = this.state.activeStep
         return (
-          <Container style={{ backgroundColor: "white" }}>
+            <Container style={{ backgroundColor: "white" }}>
                 <Row>
                     <h1>Submit an Order</h1>
                 </Row>
                 <Row>
-            {steps.map((label, index) => (
-              <div key={label}>
-                <Button onClick={(index) => this.setActiveStep(index)}>{label}</Button>
-              </div>
-            ))}
-                
-                </Row><React.Fragment>
+                    {steps.map((label, index) => (
+                        <div key={label}>
+                            <Button
+                                onClick={(index) => this.setActiveStep(index)}
+                            >
+                                {label}
+                            </Button>
+                        </div>
+                    ))}
+                </Row>
+                <React.Fragment>
                     {activeStep === steps.length ? (
                         <React.Fragment>
-                                Thank you for your order.
-                                Your order number is #2001539. We have emailed
-                                your order confirmation, and will send you an
-                                update when your order has shipped.
+                            Thank you for your order. Your order number is
+                            #2001539. We have emailed your order confirmation,
+                            and will send you an update when your order has
+                            shipped.
                         </React.Fragment>
                     ) : (
                         <React.Fragment>
                             {this.getStepContent(activeStep)}
                             <div>
                                 {activeStep !== 0 && (
-                                    <Button onClick={this.handleBack}>Back</Button>
+                                    <Button onClick={this.handleBack}>
+                                        Back
+                                    </Button>
                                 )}
-                                
-                                    
-                                        ? ""
-                                        : <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={activeStep === steps.length - 1 ? this.handleSubmit : this.handleNext}
-                                    >{activeStep === steps.length - 1 ? "Process" : "Next"}</Button>
-                                
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={
+                                        activeStep === steps.length - 1
+                                            ? this.handleSubmit
+                                            : this.handleNext
+                                    }
+                                >
+                                    {activeStep === steps.length - 1
+                                        ? "Process"
+                                        : "Next"}
+                                </Button>
                             </div>
                         </React.Fragment>
                     )}
